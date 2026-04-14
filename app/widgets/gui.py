@@ -1,5 +1,7 @@
 import tkinter as tk
+
 import CTkGradient as ctkg
+from app.widgets.buttons import button_setup
 
 class Graphics:
     @staticmethod
@@ -8,3 +10,4 @@ class Graphics:
         main_frame.pack(expand=True, fill="both")
         gradient_bg = ctkg.GradientFrame(master=main_frame, colors=('#4c00ff', '#0033ff'), direction="vertical", corner_radius=0, height=50, width=50)
         gradient_bg.pack(expand=True, fill="both")
+        button = button_setup(main_frame)

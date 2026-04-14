@@ -1,4 +1,5 @@
 from tkinter import Tk
+
 from app.widgets.gui import Graphics
 
 class MainWindow:
