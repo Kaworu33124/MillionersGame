@@ -11,6 +11,8 @@ class button_setup:
         self.btn2 = None
         self.btn3 = None
         self.btn4 = None
+        self.level = 14
+        self.bank_labels = []
         self.question()
         self.buttons()
         self.bank_label()
@@ -46,8 +48,9 @@ class button_setup:
         ]
         location_y = 10
         for i in bank:
-            i = tk.Label(self.window, text=i, bg='#10069F',fg='white', width=8, height=1, font=("Arial", 20))
-            i.place(x=1200, y=location_y)
+            label = tk.Label(self.window, text=i, bg='#10069F',fg='white', width=8, height=1, font=("Arial", 20))
+            self.bank_labels.append(label)
+            label.place(x=1200, y=location_y)
             location_y +=30
 
     def question(self):
@@ -61,6 +64,8 @@ class button_setup:
         if name_button.cget('text') == self.anw:
             name_button.config(bg='green')
             self.buttons_disable()
+            self.bank_labels[self.level].config(fg='#FFD700')
+            self.level -= 1
             self.window.after(1000, self.new_que)
         else:
             name_button.config(bg='red')
