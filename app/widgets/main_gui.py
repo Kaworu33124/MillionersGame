@@ -3,7 +3,7 @@ import random
 
 from ..parse import parse_json_basic
 
-class button_setup:
+class global_gui:
     def __init__(self, window):
         self.window = window
         self.data = parse_json_basic('C:/Users/Admin/Desktop/pyton/millioner/app/questions.json')
@@ -13,6 +13,7 @@ class button_setup:
         self.btn4 = None
         self.level = 14
         self.bank_labels = []
+        self.not_in_que = []
         self.question()
         self.buttons()
         self.bank_label()
@@ -40,14 +41,14 @@ class button_setup:
         question.place(x=125, y=350)
 
     def bank_label(self):
-        bank = [
+        self.bank = [
             '1.000.000', '500.000', '250.000', "125.000",
             "64.000", "32.000", "16.000", "8.000",
             "4.000", "2.000", "1.000", "500",
             "300", "200", "100"
         ]
         location_y = 10
-        for i in bank:
+        for i in self.bank:
             label = tk.Label(self.window, text=i, bg='#10069F',fg='white', width=8, height=1, font=("Arial", 20))
             self.bank_labels.append(label)
             label.place(x=1200, y=location_y)
@@ -55,10 +56,13 @@ class button_setup:
 
     def question(self):
         self.x = random.randint(1, 10)
-        que_list = self.data['questions'][self.x]['options']
-        self.que = self.data['questions'][self.x]['text']
-        self.anw = self.data['questions'][self.x]['answer']
-        self.opt1, self.opt2, self.opt3, self.opt4  = que_list
+        if self.x in self.not_in_que:
+            self.question()
+        else:
+            que_list = self.data['questions'][self.x]['options']
+            self.que = self.data['questions'][self.x]['text']
+            self.anw = self.data['questions'][self.x]['answer']
+            self.opt1, self.opt2, self.opt3, self.opt4  = que_list
 
     def check_answer(self, name_button):
         if name_button.cget('text') == self.anw:
@@ -70,7 +74,7 @@ class button_setup:
         else:
             name_button.config(bg='red')
             self.buttons_disable()
-            print('Lose')
+            self.window.after(1000, self.lose_window)
 
     def new_que(self):
         self.buttons_active()
@@ -80,6 +84,19 @@ class button_setup:
         self.btn2.config(text=self.opt2, bg='#5B6E7A')
         self.btn3.config(text=self.opt3, bg='#5B6E7A')
         self.btn4.config(text=self.opt4, bg='#5B6E7A')
+
+    def lose_window(self):
+        self.clear_all_widgets()
+        lose_bank = tk.Label(self.window, text=f'потеряно 💰{self.bank[self.level]}', bg='#10069F',fg='#FFD700', width=30, height=2, font=("Arial", 25) )
+        lose_bank.place(x=375, y=300)
+        lose_label = tk.Label(self.window, text='ВЫ ПРОИГРАЛИ', bg='#5B6E7A',fg='white', width=30, height=2, font=("Arial", 30) )
+        lose_label.place(x=325, y=200)
+        lose_button = tk.Button(self.window, text='Новая игра', bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=self.return_game)
+        lose_button.place(x=500, y=400)
+
+    def return_game(self):
+        self.clear_all_widgets()
+        restert_gui = global_gui(self.window)
 
     def buttons_disable(self):
             self.btn1.config(state=tk.DISABLED)
@@ -92,3 +109,7 @@ class button_setup:
             self.btn2.config(state=tk.NORMAL)
             self.btn3.config(state=tk.NORMAL)
             self.btn4.config(state=tk.NORMAL)
+
+    def clear_all_widgets(self):
+        for widget in self.window.winfo_children():
+            widget.destroy()
