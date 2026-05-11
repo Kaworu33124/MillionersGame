@@ -18,19 +18,22 @@ class button_setup:
 
 
     def buttons(self):
-        btn1 = tk.Button(self.window, text=self.opt1, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(btn1))
-        btn1.place(x=220, y=580)
+        self.btn1 = tk.Button(self.window, text=self.opt1, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(self.btn1))
+        self.btn1.place(x=220, y=580)
 
-        btn2 = tk.Button(self.window, text=self.opt2, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(btn2))
-        btn2.place(x=220, y=480)
+        self.btn2 = tk.Button(self.window, text=self.opt2, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(self.btn2))
+        self.btn2.place(x=220, y=480)
 
-        btn3 = tk.Button(self.window, text=self.opt3, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda:self.check_answer(btn3))
-        btn3.place(x=720, y=580)
+        self.btn3 = tk.Button(self.window, text=self.opt3, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda:self.check_answer(self.btn3))
+        self.btn3.place(x=720, y=580)
 
-        btn4 = tk.Button(self.window, text=self.opt4, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(btn4))
-        btn4.place(x=720, y=480)
+        self.btn4 = tk.Button(self.window, text=self.opt4, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(self.btn4))
+        self.btn4.place(x=720, y=480)
 
     def question_label(self):
+        if hasattr(self, 'question_label_widget') and self.question_label_widget:
+            self.question_label_widget.destroy()
+
         question = tk.Label(self.window, text=self.que, bg='#5B6E7A',fg='white', width=65, height=2, font=("Arial", 20))
         question.place(x=125, y=350)
 
@@ -57,3 +60,30 @@ class button_setup:
     def check_answer(self, name_button):
         if name_button.cget('text') == self.anw:
             name_button.config(bg='green')
+            self.buttons_disable()
+            self.window.after(1000, self.new_que)
+        else:
+            name_button.config(bg='red')
+            self.buttons_disable()
+            print('Lose')
+
+    def new_que(self):
+        self.buttons_active()
+        self.question()
+        self.question_label()
+        self.btn1.config(text=self.opt1, bg='#5B6E7A')
+        self.btn2.config(text=self.opt2, bg='#5B6E7A')
+        self.btn3.config(text=self.opt3, bg='#5B6E7A')
+        self.btn4.config(text=self.opt4, bg='#5B6E7A')
+
+    def buttons_disable(self):
+            self.btn1.config(state=tk.DISABLED)
+            self.btn2.config(state=tk.DISABLED)
+            self.btn3.config(state=tk.DISABLED)
+            self.btn4.config(state=tk.DISABLED)
+
+    def buttons_active(self):
+            self.btn1.config(state=tk.NORMAL)
+            self.btn2.config(state=tk.NORMAL)
+            self.btn3.config(state=tk.NORMAL)
+            self.btn4.config(state=tk.NORMAL)
