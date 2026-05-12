@@ -55,22 +55,27 @@ class global_gui:
             location_y +=30
 
     def question(self):
-        self.x = random.randint(1, 10)
-        if self.x in self.not_in_que:
-            self.question()
-        else:
-            que_list = self.data['questions'][self.x]['options']
-            self.que = self.data['questions'][self.x]['text']
-            self.anw = self.data['questions'][self.x]['answer']
-            self.opt1, self.opt2, self.opt3, self.opt4  = que_list
+        self.x = random.randint(0, 23)
+        while self.x in self.not_in_que:
+            self.x = random.randint(0, 23)
+        
+        que_list = self.data['questions'][self.x]['options']
+        random.shuffle(que_list)
+        self.que = self.data['questions'][self.x]['text']
+        self.anw = self.data['questions'][self.x]['answer']
+        self.opt1, self.opt2, self.opt3, self.opt4 = que_list
+        self.not_in_que.append(self.x)
 
     def check_answer(self, name_button):
         if name_button.cget('text') == self.anw:
             name_button.config(bg='green')
             self.buttons_disable()
             self.bank_labels[self.level].config(fg='#FFD700')
-            self.level -= 1
-            self.window.after(1000, self.new_que)
+            if self.level == 0:
+                self.window.after(1000, self.win_window)
+            else:
+                self.level -= 1
+                self.window.after(1000, self.new_que)
         else:
             name_button.config(bg='red')
             self.buttons_disable()
@@ -93,6 +98,15 @@ class global_gui:
         lose_label.place(x=325, y=200)
         lose_button = tk.Button(self.window, text='Новая игра', bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=self.return_game)
         lose_button.place(x=500, y=400)
+
+    def win_window(self):
+        self.clear_all_widgets()
+        win_bank = tk.Label(self.window, text=f'Получено 💰{self.bank[self.level]}', bg='#10069F',fg='#FFD700', width=30, height=2, font=("Arial", 25) )
+        win_bank.place(x=375, y=300)
+        win_label = tk.Label(self.window, text='ВЫ ВЫЙГРАЛИ', bg='#5B6E7A',fg='white', width=30, height=2, font=("Arial", 30) )
+        win_label.place(x=325, y=200)
+        win_button = tk.Button(self.window, text='Новая игра', bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=self.return_game)
+        win_button.place(x=500, y=400)
 
     def return_game(self):
         self.clear_all_widgets()
