@@ -48,8 +48,8 @@ class Global_gui:
         if hasattr(self, 'question_label_widget') and self.question_label_widget:
             self.question_label_widget.destroy()
 
-        question = tk.Label(self.window, text=self.que, bg='#5B6E7A',fg='white', width=65, height=2, font=("Arial", 20))
-        question.place(x=125, y=350)
+        question = tk.Label(self.window, text=self.que, bg='#5B6E7A',fg='white', width=95, height=3, font=("Arial", 15))
+        question.place(x=120, y=350)
 
     def bank_label(self):
         self.bank = [
@@ -98,9 +98,9 @@ class Global_gui:
         self.audience_help_button.config(state=tk.DISABLED)
 
     def question(self):
-        self.x = random.randint(0, 23)
+        self.x = random.randint(1, 140)
         while self.x in self.not_in_que:
-            self.x = random.randint(0, 23)
+            self.x = random.randint(1, 140)
         
         que_list = self.data['questions'][self.x]['options']
         random.shuffle(que_list)
@@ -165,7 +165,6 @@ class Global_gui:
             win_button.place(x=500, y=400)
         else:
             return None
-
 
     def return_game(self):
         self.clear_all_widgets()
