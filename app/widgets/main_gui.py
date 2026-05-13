@@ -4,6 +4,8 @@ import random
 from ..parse import parse_json_basic
 
 class Global_gui:
+    total_bank = 0
+
     def __init__(self, window):
         self.window = window
         self.data = parse_json_basic('questions.json')
@@ -18,6 +20,7 @@ class Global_gui:
         self.buttons()
         self.bank_label()
         self.question_label()
+        self.total_cash()
 
 
     def buttons(self):
@@ -34,7 +37,7 @@ class Global_gui:
         self.btn4.place(x=720, y=480)
 
         take_bank_button = tk.Button(self.window, text='Забрать приз', bg='#5B6E7A', width=10, height=3, bd=1, relief=tk.SOLID, font=("Arial", 10), command=self.take_bank)
-        take_bank_button.place(x=25, y=10)
+        take_bank_button.place(x=25, y=60)
 
     def question_label(self):
         if hasattr(self, 'question_label_widget') and self.question_label_widget:
@@ -50,12 +53,22 @@ class Global_gui:
             "4.000", "2.000", "1.000", "500",
             "300", "200", "100"
         ]
+        self.bank2 = [
+            '1000000', '500000', '250000', "125000",
+            "64000", "32000", "16000", "8000",
+            "4000", "2000", "1000", "500",
+            "300", "200", "100"
+        ]
         location_y = 10
         for i in self.bank:
             label = tk.Label(self.window, text=i, bg='#10069F',fg='white', width=8, height=1, font=("Arial", 20))
             self.bank_labels.append(label)
             label.place(x=1200, y=location_y)
             location_y +=30
+
+    def total_cash(self):
+        total_bank_label = tk.Label(self.window, text=f'Заработано: {Global_gui.total_bank}', bg='#10069F',fg='white', width=20, height=1, font=("Arial", 20))
+        total_bank_label.place(x=15, y=10)
 
     def question(self):
         self.x = random.randint(0, 23)
@@ -104,6 +117,7 @@ class Global_gui:
 
     def win_window(self):
         self.clear_all_widgets()
+        Global_gui.total_bank += int(self.bank2[self.level])
         win_bank = tk.Label(self.window, text=f'Получено 💰{self.bank[self.level]}', bg='#10069F',fg='#FFD700', width=30, height=2, font=("Arial", 25) )
         win_bank.place(x=375, y=300)
         win_label = tk.Label(self.window, text='ВЫ ВЫЙГРАЛИ', bg='#5B6E7A',fg='white', width=30, height=2, font=("Arial", 30) )
@@ -115,6 +129,7 @@ class Global_gui:
         if self.level < 14:
             now_bank = self.level + 1
             self.clear_all_widgets()
+            Global_gui.total_bank += int(self.bank2[now_bank])
             win_bank = tk.Label(self.window, text=f'Получено 💰{self.bank[now_bank]}', bg='#10069F',fg='#FFD700', width=30, height=2, font=("Arial", 25) )
             win_bank.place(x=375, y=300)
             win_label = tk.Label(self.window, text='ВЫ ВЫЙГРАЛИ', bg='#5B6E7A',fg='white', width=30, height=2, font=("Arial", 30) )
