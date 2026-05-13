@@ -22,7 +22,6 @@ class Global_gui:
         self.question_label()
         self.total_cash()
 
-
     def buttons(self):
         self.btn1 = tk.Button(self.window, text=self.opt1, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(self.btn1))
         self.btn1.place(x=220, y=580)
@@ -39,6 +38,9 @@ class Global_gui:
         take_bank_button = tk.Button(self.window, text='Забрать приз', bg='#5B6E7A', width=10, height=3, bd=1, relief=tk.SOLID, font=("Arial", 10), command=self.take_bank)
         take_bank_button.place(x=25, y=60)
 
+        self.fifty_to_fifty_button = tk.Button(self.window, text='50 на 50', bg='#5B6E7A', width=10, height=3, bd=1, relief=tk.SOLID, font=("Arial", 10), command=self.fifty_to_fifty)
+        self.fifty_to_fifty_button.place(x=25, y=125)
+
     def question_label(self):
         if hasattr(self, 'question_label_widget') and self.question_label_widget:
             self.question_label_widget.destroy()
@@ -50,13 +52,13 @@ class Global_gui:
         self.bank = [
             '1.000.000', '500.000', '250.000', "125.000",
             "64.000", "32.000", "16.000", "8.000",
-            "4.000", "2.000", "1.000", "500",
+            "4.000", "2.000", "1.000", "500", 
             "300", "200", "100"
         ]
         self.bank2 = [
-            '1000000', '500000', '250000', "125000",
-            "64000", "32000", "16000", "8000",
-            "4000", "2000", "1000", "500",
+            '1000000', '500000', '250000', "125000",       #TODO   мб исправлю, но чета не хочу
+            "64000", "32000", "16000", "8000",              #!
+            "4000", "2000", "1000", "500",                  #!
             "300", "200", "100"
         ]
         location_y = 10
@@ -69,6 +71,16 @@ class Global_gui:
     def total_cash(self):
         total_bank_label = tk.Label(self.window, text=f'Заработано: {Global_gui.total_bank}', bg='#10069F',fg='white', width=20, height=1, font=("Arial", 20))
         total_bank_label.place(x=15, y=10)
+
+    def fifty_to_fifty(self):
+        all_buttons = [self.btn1, self.btn2, self.btn3, self.btn4]
+        for btn in all_buttons:
+            if btn.cget('text') == self.anw:
+                all_buttons.remove(btn)
+        all_buttons.remove(random.choice(all_buttons))
+        for btn in all_buttons:
+            btn.config(state=tk.DISABLED)
+        self.fifty_to_fifty_button.config(state=tk.DISABLED)
 
     def question(self):
         self.x = random.randint(0, 23)
