@@ -3,11 +3,11 @@ import random
 
 from ..parse import parse_json_basic
 
-class global_gui:
+class Global_gui:
     def __init__(self, window):
         self.window = window
-        self.data = parse_json_basic('C:/Users/Admin/Desktop/pyton/millioner/app/questions.json')
-        self.btn1 = None  
+        self.data = parse_json_basic('questions.json')
+        self.btn1 = None
         self.btn2 = None
         self.btn3 = None
         self.btn4 = None
@@ -32,6 +32,9 @@ class global_gui:
 
         self.btn4 = tk.Button(self.window, text=self.opt4, bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=lambda: self.check_answer(self.btn4))
         self.btn4.place(x=720, y=480)
+
+        take_bank_button = tk.Button(self.window, text='Забрать приз', bg='#5B6E7A', width=10, height=3, bd=1, relief=tk.SOLID, font=("Arial", 10), command=self.take_bank)
+        take_bank_button.place(x=25, y=10)
 
     def question_label(self):
         if hasattr(self, 'question_label_widget') and self.question_label_widget:
@@ -108,9 +111,23 @@ class global_gui:
         win_button = tk.Button(self.window, text='Новая игра', bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=self.return_game)
         win_button.place(x=500, y=400)
 
+    def take_bank(self):
+        if self.level < 14:
+            now_bank = self.level + 1
+            self.clear_all_widgets()
+            win_bank = tk.Label(self.window, text=f'Получено 💰{self.bank[now_bank]}', bg='#10069F',fg='#FFD700', width=30, height=2, font=("Arial", 25) )
+            win_bank.place(x=375, y=300)
+            win_label = tk.Label(self.window, text='ВЫ ВЫЙГРАЛИ', bg='#5B6E7A',fg='white', width=30, height=2, font=("Arial", 30) )
+            win_label.place(x=325, y=200)
+            win_button = tk.Button(self.window, text='Новая игра', bg='#5B6E7A', width=40, height=3, bd=2, relief=tk.SOLID, font=("Arial", 10), command=self.return_game)
+            win_button.place(x=500, y=400)
+        else:
+            return None
+
+
     def return_game(self):
         self.clear_all_widgets()
-        restert_gui = global_gui(self.window)
+        Global_gui(self.window)
 
     def buttons_disable(self):
             self.btn1.config(state=tk.DISABLED)
