@@ -41,6 +41,9 @@ class Global_gui:
         self.fifty_to_fifty_button = tk.Button(self.window, text='50 на 50', bg='#5B6E7A', width=10, height=3, bd=1, relief=tk.SOLID, font=("Arial", 10), command=self.fifty_to_fifty)
         self.fifty_to_fifty_button.place(x=25, y=125)
 
+        self.audience_help_button = tk.Button(self.window, text='Помощь зала', bg='#5B6E7A', width=10, height=3, bd=1, relief=tk.SOLID, font=("Arial", 10),command=self.audience_help)
+        self.audience_help_button.place(x=25, y=190)
+
     def question_label(self):
         if hasattr(self, 'question_label_widget') and self.question_label_widget:
             self.question_label_widget.destroy()
@@ -81,6 +84,18 @@ class Global_gui:
         for btn in all_buttons:
             btn.config(state=tk.DISABLED)
         self.fifty_to_fifty_button.config(state=tk.DISABLED)
+
+    def audience_help(self):
+        all_buttons = [self.btn1, self.btn2, self.btn3, self.btn4]
+        random_option = random.randint(1, 100)
+        if random_option < 70:
+            for btn in all_buttons:
+                if btn.cget('text') == self.anw:
+                    btn.config(bg='#5A3A6B')
+        else:
+            random_anw = random.choice(all_buttons)
+            random_anw.config(bg='#5A3A6B')
+        self.audience_help_button.config(state=tk.DISABLED)
 
     def question(self):
         self.x = random.randint(0, 23)
