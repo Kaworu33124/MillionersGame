@@ -77,11 +77,14 @@ class Global_gui:
 
     def fifty_to_fifty(self):
         all_buttons = [self.btn1, self.btn2, self.btn3, self.btn4]
+        wrong_buttons = []
+        
         for btn in all_buttons:
-            if btn.cget('text') == self.anw:
-                all_buttons.remove(btn)
-        all_buttons.remove(random.choice(all_buttons))
-        for btn in all_buttons:
+            if btn.cget('text') != self.anw and btn['state'] == tk.NORMAL and btn.cget('bg') != '#5A3A6B':
+                wrong_buttons.append(btn)
+                
+        random_anw = random.sample(wrong_buttons, 2)
+        for btn in random_anw:
             btn.config(state=tk.DISABLED)
         self.fifty_to_fifty_button.config(state=tk.DISABLED)
 
@@ -93,14 +96,15 @@ class Global_gui:
                 if btn.cget('text') == self.anw:
                     btn.config(bg='#5A3A6B')
         else:
-            random_anw = random.choice(all_buttons)
+            available_buttons = [btn for btn in all_buttons if btn.cget('state') != tk.DISABLED]
+            random_anw = random.choice(available_buttons)
             random_anw.config(bg='#5A3A6B')
         self.audience_help_button.config(state=tk.DISABLED)
 
     def question(self):
-        self.x = random.randint(1, 140)
+        self.x = random.randint(1, 139)
         while self.x in self.not_in_que:
-            self.x = random.randint(1, 140)
+            self.x = random.randint(1, 139)
         
         que_list = self.data['questions'][self.x]['options']
         random.shuffle(que_list)
