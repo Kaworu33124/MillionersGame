@@ -7,5 +7,6 @@ class MainWindow:
         self.window = Tk()
         self.window.title("Кто хочет стать миллионером")
         self.window.geometry("1350x720")
+        self.window.resizable(False, False)
         Graphics.setup(self.window)
         self.window.mainloop()
